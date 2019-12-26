@@ -37,10 +37,10 @@ def score_alignement_opti(seqA,seqB):
     return t
 
 
-test = score_alignement_opti("abbacb","cbbbacab")
+#test = score_alignement_opti("abbacb","cbbbacab")
 
-print(test[-1][-1])
-print(test)
+#print(test[-1][-1])
+#print(test)
 
 #print(test[len("cbbbacab")][len("abbacb")])
 
@@ -67,44 +67,46 @@ def retourne_indices(i_actuel,j_actuel,t):
         return i_actuel+1,j_actuel+1
 
 def alignements_optimaux(seqA,seqB):
-    seqA_p = ""
-    seqB_p = ""
+    seqA_p = [0 for i in range(len(seqB))]
+    seqB_p = [0 for i in range(len(seqB))]
+    seqA_p[0] = seqA[0]
+    seqB_p[0] = seqB[0]
     i=0
     j=0
     i_p=0
     j_p=0
-    y=0
+    y=1
     m = len(seqA)
     n = len(seqB)
     t = score_alignement_opti(seqA,seqB)
-    while(i < n-2 and j < m-2):
+    print("t : ",t)
+    while(i < 5 and j <5):
         i_p,j_p = retourne_indices(i,j,t)
+        print("i-p : ",i_p)
+        print("j_p : ",j_p)
         if(i_p-i==1 and j_p-j==1):
-            seqA_p[y]+=seqA[i_p]
-            seqB_p[y]+=seqB[j_p]
+            seqA_p[y]=seqA[i_p]
+            seqB_p[y]=seqB[j_p]
             y=y+1
             i=i+1
             j=j+1
 
         elif(i_p-i==1 and j_p-j==0):
-            seqA_p[y]+=seqA[i_p]
-            seqB_p[y]+="_"
+            seqA_p[y]=seqA[i_p]
+            seqB_p[y]="_"
             y=y+1
             i=i+1
             j=j+1
 
         elif(i_p-i==0 and j_p-j==1):
-            seqA_p[y]+="_"
-            seqB_p[y]+=seqB[j_p]
+            seqA_p[y]="_"
+            seqB_p[y]=seqB[j_p]
             y=y+1
             i=i+1
             j=j+1
-        else:
-            s=1
-            while(i_p ==False and j_p==False):
-                i_p,j_p = retourne_indices(i+s,j+s,t)
-        return seqA_p,seqB_p
 
-a,b = alignements_optimaux("abbacb","cbbbacab")
+    return seqA_p,seqB_p
+
+a,b = alignements_optimaux("abbacb","aaacbb")
 print(a)
 print(b)
