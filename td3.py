@@ -1,4 +1,6 @@
 
+import re
+
 ## QUESTION 1
 ##RAPPEL : plus le score est haut, plus l'alignement est mauvais et le plagiat ne sera pas avéré
 def Del():
@@ -53,13 +55,14 @@ def retourne_indices(i_actuel,j_actuel,t):#prends les indices actuels et la matr
 
 ##on va regarder le score minimal des 3 possiblités qu'on a lorqu'on part de la fin puis on continue
     if(t[i_actuel - 1 ][j_actuel]<t[i_actuel][j_actuel-1] and t[i_actuel - 1 ][j_actuel]<t[i_actuel-1][j_actuel-1] ):
+        i_actuel = i_actuel-1
         return i_actuel,j_actuel#retourne les nouveaux indices à prendre
 
-    if(t[i_actuel ][j_actuel - 1]<t[i_actuel-1][j_actuel] and t[i_actuel][j_actuel-1]<t[i_actuel-1][j_actuel-1] ):
+    elif(t[i_actuel ][j_actuel - 1]<t[i_actuel-1][j_actuel] and t[i_actuel][j_actuel-1]<t[i_actuel-1][j_actuel-1] ):
         j_actuel= j_actuel-1
         return i_actuel,j_actuel#retourne les nouveaux indices à prendre
 
-    if(t[i_actuel - 1 ][j_actuel-1]<t[i_actuel][j_actuel-1] and t[i_actuel - 1 ][j_actuel-1]<t[i_actuel-1][j_actuel] ):
+    elif(t[i_actuel - 1 ][j_actuel-1]<t[i_actuel][j_actuel-1] and t[i_actuel - 1 ][j_actuel-1]<t[i_actuel-1][j_actuel] ):
         i_actuel= i_actuel-1
         j_actuel = j_actuel -1
         return i_actuel,j_actuel#retourne les nouveaux indices à prendre
@@ -116,18 +119,34 @@ def alignements_optimaux(seqA,seqB):#prends les deux séquences de base
             seqB_p.append(seqB[j_p])
             j=j-1
         else:#ne doit jamais arriver car les autres cas couvrent l'ensemble des possibilités mais on sait jamais
-            print("ah")
-
+            print("i_p : ",i_p)
+            print("i : ",i)
+            print("j_p : ",j_p)
+            print("j : ",j)
 
     return inverse_tab(seqA_p),inverse_tab(seqB_p)#retourne les deux alignements optimaux (MAIS A L ENVERS VU QU ON PART DE LA FIN DE LA MATRICE), donc on les inverse
 
+def read_text(file):
+    f = open(file,"r")
+    return f.read()
 
+print(type(read_text("texte1.txt")))
+text1 = read_text("texte1.txt")
+text2 = read_text("texte2.txt")
+#text1=re.sub('[\W_]+', '',text1)
+#text2=re.sub('[\W_]+', '',text2)
 
-a,b = alignements_optimaux("bonjour je m'appelle machin","bonjour je mappelle machin")#marche sur ce test
+#text2=regex.sub(text2, 'ab3d*E')
 
+#print(text1)
+
+a,b = alignements_optimaux("Source wiki, un étudiant a essayé de tricjer c'est vraiment bizarre","Source prof un étudiant a essayé de tricher ça ne m'étonne pas")#marche sur ce test
+e,f = alignements_optimaux(text1,text2)
 c,d = alignements_optimaux("abbacb","cbbbacab")
 
-print(a)#donne bien deux alignements optimaux car seuls 3 caractères sont dépareillésé
-print(b)
-print(c)
-print(d)
+#print(a)#donne bien deux alignements optimaux car seuls 3 caractères sont dépareillésé
+#print(b)
+#print(c)
+#print(d)
+print(e)
+print(f)
