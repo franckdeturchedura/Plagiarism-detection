@@ -81,8 +81,8 @@ def inverse_tab(t):
 def alignements_optimaux(seqA,seqB):#prends les deux séquences de base
     if(len(seqA)>len(seqB)):
         seq_a_p = seqA
-        seqB = seqA
-        seqA = seq_a_p
+        seqA = seqB
+        seqB = seq_a_p
     seqA_p = []#on crée les liste qui nous serviront à stocker les alignements optimaux
     seqB_p = []
 
@@ -123,11 +123,11 @@ def alignements_optimaux(seqA,seqB):#prends les deux séquences de base
 
 
 
-#a,b = alignements_optimaux("Source Wikipedia modifie par un etudiant du cours IT-4301E, traitement algorithmique de l information. La distance de d editon est une distance au sens mathematique donnant une mesure de la similarite entre deux sequences. Elle est egale au nombre minimal de caracteres qu il faut supprimer, inserer ou substituer pour passer d une sequence a l autre. Elle a ete proposee par Vladimir Levenshtein en 1965. Elle est ainsi egalement connue sous les noms de distance de Levenshtein ou de distance de deformation dynamique temporelle dans le domaine de la reconnaissance de formes. Cette distance est est une fonction croissante du nombre de differences entre les deux sequences. La distance d edition peut etre consideree comme une generalisation de la distance de Hamming (donnee par le nombre de position en lesquelles les deux sequences possedent des caracteres differents). On peut montrer en particulier que la distance de Hamming est un majorant de la distance d edition.Definition formelle : on appelle distance d edition entre deux mots M et P le cout minimal transformer M en P en effectuant les operations elementaires, dites d edition, suivantes : i) substitution d un caractere de M par un caractere de P ; ii) insertion dans M d un caractere de P ; iii) suppression (ou deletion) d un caractere de M. On associe ainsi a chacune de ces operations un cout. On choisit souvent un cout egal a 1 pour toutes les operations excepte la substitution de caracteres identiques qui a un cout nul.Exemples : si M = 'examen' et P = 'examen', alors Lev(M, P) = 0 parce qu aucune operation n a ete realisee. Si M = 'examen' et P = 'examan', alors Lev(M, P) = 1, parce qu il y a eu une substitution (changement du e en a), et que l on ne peut pas en faire une transformation de M en P avec un moindre cout.","Source Wikipedia. La distance de Levenshtein une distance mathematique donnant une mesure de la similarite entre deux chaines de caracteres. Elle est egale au nombre minimal de caracteres qu il faut supprimer, inserer ou remplacer pour passer d une chaine a l autre. Elle a ete proposee par Vladimir Levenshtein en 1965. Elle est egalement connue sous les noms de distance d edition ou de deformation dynamique temporelle, notamment en reconnaissance de formes et particulierement en reconnaissance vocale1,2.Cette distance est d autant plus grande que le nombre de differences entre les deux chaines est grand. La distance de Levenshtein peut etre consideree comme une generalisation de la distance de Hamming. On peut montrer en particulier que la distance de Hamming est un majorant de la distance de Levenshtein.Definition : on appelle distance de Levenshtein entre deux mots M et P le cout minimal pour aller de M a P en effectuant les operations elementaires suivantes : i) substitution d un caractere de M en un caractere de P ; ii) ajout dans M d un caractere de P ; iii) suppression d un caractere de M. On associe ainsi a chacune de ces operations un cout. Le cout est toujours egal a 1, sauf dans le cas d une substitution de caracteres identiques. Exemples : si M = 'examen' et P = 'examen', alors LD (M, P) = 0, parce qu aucune operation n a ete realisee. Si M = 'examen' et P = 'examan', alors LD (M, P) = 1, parce qu il y a eu un remplacement (changement du e en a), et que l on ne peut pas en faire moins.")#marche sur ce test
+a,b = alignements_optimaux("bonjour je m'appelle machin","bonjour je mappelle machin")#marche sur ce test
 
 c,d = alignements_optimaux("abbacb","cbbbacab")
 
-#print(a)#donne bien deux alignements optimaux car seuls 3 caractères sont dépareillésé
-#print(b)
+print(a)#donne bien deux alignements optimaux car seuls 3 caractères sont dépareillésé
+print(b)
 print(c)
 print(d)
