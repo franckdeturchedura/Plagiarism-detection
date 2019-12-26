@@ -83,14 +83,13 @@ def alignements_optimaux(seqA,seqB):#prends les deux séquences de base
         seq_a_p = seqA
         seqB = seqA
         seqA = seq_a_p
-    seqA_p = [0 for i in range(len(seqB))]#on crée les liste qui nous serviront à stocker les alignements optimaux
-    seqB_p = [0 for i in range(len(seqB))]
+    seqA_p = []#on crée les liste qui nous serviront à stocker les alignements optimaux
+    seqB_p = []
 
     i=len(seqA)#on part de la case de la matrice tout en bas à droite (en gros là où il y a le score optimale pour les deux séquences entières)
     j=len(seqB)#
     i_p=0#ici seront stockés les indices suivants qui seront calculés avec la fonction précédente
     j_p=0
-    y=0#permettra d'avoir le bon indice pour ajouter les caractères aux alignements optimaux
 
     t = score_alignement_opti(seqA,seqB) #on calcule la matrice des scores d'alignement et on la stocke dans t
     #print("t : ",t)
@@ -101,26 +100,23 @@ def alignements_optimaux(seqA,seqB):#prends les deux séquences de base
 
 
         if(i_p-i==-1 and j_p-j==-1):##Si la différence des deux indices vaut -1 (ou 1 dans l'autre sens), c'est qu'il faut remonter en diagonale
-            seqA_p[y]=seqA[i_p]#on mets dans les alignements optimaux les 2 caractères des séquences de base (car remontée en diagonale)
-            seqB_p[y]=seqB[j_p]
-            y=y+1#on incrémente l'indice des alignements optimaux
+            seqA_p.append(seqA[i_p])#on mets dans les alignements optimaux les 2 caractères des séquences de base (car remontée en diagonale)
+            seqB_p.append(seqB[j_p])
             i=i-1 #on décrémente bien les deux indices pour le calcul des prochains
             j=j-1
 
         elif(i_p-i==-1 and j_p-j==0):#si le prochain score minimal est sur la gauche (il n'y a que i qui change)
-            seqA_p[y]=seqA[i_p]#on mets dans l'alignement optimal de A la valeur correspondante de la séquence A
-            seqB_p[y]="_"#pour l'alignement opti de B on mets un tiret (ou un vide quoi)
-            y=y+1#on incrémente comme précédemment
+            seqA_p.append(seqA[i_p])#on mets dans l'alignement optimal de A la valeur correspondante de la séquence A
+            seqB_p.append("_")#pour l'alignement opti de B on mets un tiret (ou un vide quoi)
             i=i-1#il n'y a que i qui bouge pour le prochain calcul des indices du score minimal
 
 #meme principe qu'au dessus mais avec j
         elif(i_p-i==0 and j_p-j==-1):#faudrait mettre un else pour que ce soit opti mais on voit mieux le principe comme ça
-            seqA_p[y]="_"
-            seqB_p[y]=seqB[j_p]
-            y=y+1
+            seqA_p.append("_")
+            seqB_p.append(seqB[j_p])
             j=j-1
         else:#ne doit jamais arriver car les autres cas couvrent l'ensemble des possibilités mais on sait jamais
-            print("ah")#si ça arrive c'est que seqA est plus longue que seB
+            print("ah")
 
 
     return inverse_tab(seqA_p),inverse_tab(seqB_p)#retourne les deux alignements optimaux (MAIS A L ENVERS VU QU ON PART DE LA FIN DE LA MATRICE), donc on les inverse
