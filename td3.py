@@ -1,5 +1,11 @@
 
 import re
+import ctypes
+from ctypes import *
+so_file = "./affichage.so"
+affichage = CDLL(so_file)
+
+#print(type(affichage.affiche))
 
 ## QUESTION 1
 ##RAPPEL : plus le score est haut, plus l'alignement est mauvais et le plagiat ne sera pas avéré
@@ -130,7 +136,7 @@ def read_text(file):
     f = open(file,"r")
     return f.read()
 
-print(type(read_text("texte1.txt")))
+#print(type(read_text("texte1.txt")))
 text1 = read_text("texte1.txt")
 text2 = read_text("texte2.txt")
 #text1=re.sub('[\W_]+', '',text1)
@@ -141,12 +147,21 @@ text2 = read_text("texte2.txt")
 #print(text1)
 
 a,b = alignements_optimaux("Source wiki, un étudiant a essayé de tricjer c'est vraiment bizarre","Source prof un étudiant a essayé de tricher ça ne m'étonne pas")#marche sur ce test
-e,f = alignements_optimaux(text1,text2)
+#e,f = alignements_optimaux(text1,text2)
 c,d = alignements_optimaux("abbacb","cbbbacab")
 
 #print(a)#donne bien deux alignements optimaux car seuls 3 caractères sont dépareillésé
 #print(b)
 #print(c)
 #print(d)
-print(e)
-print(f)
+#affichage.affiche2.argtypes = [c_wchar_p,c_wchar_p, c_int] # (all defined by ctypes)
+#affichage.affiche.argtypes = [c_wchar_p,c_wchar_p, c_int] # (all defined by ctypes)
+
+t1 ="test"
+t2 = "test2"
+affichage.affiche(str(a),str(b),6)
+affichage.affiche((ctypes.c_wchar * len(a))(*a),(ctypes.c_wchar * len(b))(*b),c_int(6))
+
+affichage.affiche2(str(a),str(b),6)
+#print(e)
+#print(f)
