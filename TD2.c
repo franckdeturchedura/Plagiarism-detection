@@ -74,7 +74,7 @@ int Imin3(int a, int b, int c)
 
 /* =============================================================== */
 void retourne(char *c)
-/* Retourner la chaîne de caractère c                              */
+/* Retourner la chaï¿½ne de caractï¿½re c                              */
 /* =============================================================== */
 {
 	char tmp;
@@ -104,8 +104,8 @@ void afficheSeparateurHorizontal(int nbcar)
 
 /* =============================================================== */
 void affiche(char* texte1, char* texte2, int nbcar)
-  /* Affiche simultanément texte1 et texte 2 en positionnnant nbcar  
-     caractères sur chaque ligne. */
+  /* Affiche simultanï¿½ment texte1 et texte 2 en positionnnant nbcar  
+     caractï¿½res sur chaque ligne. */
 /* =============================================================== */
 {
 	int i, l1, l2, l;
@@ -144,7 +144,7 @@ void affiche(char* texte1, char* texte2, int nbcar)
 
 /* =============================================================== */
 void affiche2(char* texte1, char* texte2, int nbcar)
-  /* idem affiche, mais avec un formattage différent
+  /* idem affiche, mais avec un formattage diffï¿½rent
 /* =============================================================== */
 {
 
@@ -182,7 +182,7 @@ void affiche2(char* texte1, char* texte2, int nbcar)
 
 /* =============================================================== */
 int sub(char x, char y)
-/* Renvoie le coup d'une substitution des caractères x et y. */
+/* Renvoie le coup d'une substitution des caractï¿½res x et y. */
 /* =============================================================== */
 {
 	if( x == y ) return 0;
@@ -246,20 +246,20 @@ int main(int argc, char **argv)
 		printf("usage: %s text1 text2\n", argv[0]);
 		exit(0);
 	}  
-
+/*
 	x = "abbacb";
 	y = "cbbbacab";
 
-	printf("\ndist(%s, %s) = %d\n\n", x, y, distance(x, y));
+	printf("\ndist(%s, %s) = %d\n\n", x, y, distance(x, y));*/
 
-/*
+
 	x = readtextfile(argv[1]);
 	y = readtextfile(argv[2]);
 	
-	printf("\ndist(x,y) = %d\n\n", distance(x, y));
-
-	affiche(x, y, 50);
+	//printf("\ndist(x,y) = %d\n\n", distance(x, y));
+	printf("%s\n\n", x);
+	affiche(x, y, 65);
 
 	free(x);
-	free(y); */
+	free(y); 
 }

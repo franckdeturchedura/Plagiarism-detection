@@ -1,8 +1,18 @@
+from ctypes import *
+so_file = './affichage.so'
+affichage = CDLL(so_file)
+# Compilation du .so avec :
+# gcc -shared -Wl,-soname,affichage -o affichage.so -fPIC affichage.c
+
 def read_text(textfile):
+    '''
+    Permet de lire un fichier texte.
+    '''
     with open(textfile, 'r') as f:
         text = f.read()
     return text
 
+# Question 1 #
 def Del(): return 1
 def Ins(): return 1
 def Sub(x, y):
@@ -31,6 +41,7 @@ def distance(A, B):
             
     return T
 
+# Question 2 #
 def inverse_tab(T):
     T_inv = [ T[-i] for i in range(1,len(T)+1) ]
     return T_inv
@@ -55,9 +66,6 @@ def retourne_indices(i, j, T):
         return i, j
 
 def alignements_optimaux(A, B):
-    if(len(A) > len(B)):
-        A, B = B, A
-
     A_p = []
     B_p = []
 
@@ -97,6 +105,9 @@ def alignements_optimaux(A, B):
 
     return "".join(inverse_tab(A_p)), "".join(inverse_tab(B_p))
 
+# Question 4 #
+
+
 if __name__ == '__main__':
     A = 'abbacb'
     B = 'cbbbacab'
@@ -104,13 +115,30 @@ if __name__ == '__main__':
     text1 = read_text('texte1.txt')
     text2 = read_text('texte2.txt')
 
-    T = distance(text1, text2)
-    
-    a, b = alignements_optimaux(text1, text2)
+    T = distance(text2, text1)
+    a, b = alignements_optimaux(text2, text1)
 
     print("Dist(A, B) = {}\n".format(T[-1][-1]))
-    # print(a)
-    # print('\n\n\n')
-    # print(b)
+
+    print(a)
+    print('\n\n')
+    print(b)
+
     print("len(text1) =", len(text1), ", len(text2) =", len(text2))
     print("len(a) =", len(a), ", len(b) =", len(b))
+    print()
+
+    t1 = c_char_p(a.encode('utf-8'))
+    t2 = c_char_p(b.encode('utf-8'))
+    affichage.affiche2(t1, t2, 65)
+
+    # t1 = c_char_p(text1.encode('utf-8'))
+    # t2 = c_char_p(text2.encode('utf-8'))
+    # affichage.affiche(t1, t2, 65)
+
+    
+    
+    
+    
+    
+    
