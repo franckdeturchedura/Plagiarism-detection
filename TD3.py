@@ -1,4 +1,4 @@
-from ctypes import *
+from ctypes import CDLL, c_char_p
 so_file = './affichage.so'
 affichage = CDLL(so_file)
 # Compilation du .so avec :
@@ -42,9 +42,9 @@ def distance(A, B):
     return T
 
 # Question 2 #
-def inverse_tab(T):
-    T_inv = [ T[-i] for i in range(1,len(T)+1) ]
-    return T_inv
+def inverse_tab(tab):
+    tab_inv = [ tab[-i] for i in range(1,len(tab)+1) ]
+    return tab_inv
 
 def retourne_indices(i, j, T):
     if( T[i-1][j] < T[i][j-1] and T[i-1][j] < T[i-1][j-1] ):
@@ -115,30 +115,58 @@ if __name__ == '__main__':
     text1 = read_text('texte1.txt')
     text2 = read_text('texte2.txt')
 
-    T = distance(text2, text1)
-    a, b = alignements_optimaux(text2, text1)
+    text3 = read_text('texte1_v2.txt')
+    text4 = read_text('texte2_v2.txt')
 
-    print("Dist(A, B) = {}\n".format(T[-1][-1]))
+    # a, b = alignements_optimaux(text3, text4)
+    # T = distance(a, b)
 
-    print(a)
-    print('\n\n')
-    print(b)
+    # print("\nDist({}, {}) = {}\n".format(a[:15], b[:15], T[-1][-1]))
 
-    print("len(text1) =", len(text1), ", len(text2) =", len(text2))
-    print("len(a) =", len(a), ", len(b) =", len(b))
-    print()
+    # print(a)
+    # print()
+    # print(b)
+    # print()
 
-    t1 = c_char_p(a.encode('utf-8'))
-    t2 = c_char_p(b.encode('utf-8'))
-    affichage.affiche2(t1, t2, 65)
+    # print("len(text1) =", len(text3), ", len(text2) =", len(text4))
+    # print("len(a) =", len(a), ", len(b) =", len(b))
+    # print()
+
+    # t1 = c_char_p(a.encode('utf-8'))
+    # t2 = c_char_p(b.encode('utf-8'))
+    # affichage.affiche2(t1, t2, 65)
 
     # t1 = c_char_p(text1.encode('utf-8'))
     # t2 = c_char_p(text2.encode('utf-8'))
     # affichage.affiche(t1, t2, 65)
 
-    
-    
-    
-    
-    
-    
+    test1 = "abcd\n423\namen\n"
+    test2 = "abcE\n123\n"
+
+    a, b = alignements_optimaux(text3, text4)
+
+    tab1 = a[:-1].split('\n') # On fait la liste des différents paragraphes
+    tab2 = b[:-1].split('\n')
+
+    matchs = []
+    for p1 in tab1: # On parcours les paragrphes du 1er texte
+        # print("p1 = {}".format(p1))
+        dist = 9999
+        p = tab2[0]
+        for p2 in tab2: # Pour chaque p1 on parcours les paragraphes du 2nd texte
+            # print("p2 = {}".format(p2))
+            T = distance(p1, p2)
+            if T[-1][-1] < dist : # On retient le paragraphe p2 qui est le plus proche de p1
+                dist = T[-1][-1]
+                p = p2
+                # print("p = {}".format(p))
+        matchs.append([p1, p]) # On renvoie la paire de paragrahes dans matchs
+        # print('***********')
+    # print(matchs)
+
+    # On affiche les paires de paragraphes ensembles
+    for k in matchs:
+        t1 = c_char_p(k[0].encode('utf-8'))
+        t2 = c_char_p(k[1].encode('utf-8'))
+        affichage.affiche(t1, t2, 65)
+
