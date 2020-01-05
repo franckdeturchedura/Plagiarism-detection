@@ -36,6 +36,16 @@ On peut l'éxécuter :
 
 `tar czvf <nom_archive>.tar.gz <nom_rep>`
 
+**Fichiers inutiles à supprimer :**  
+td3.py  
+td3.c  
+td3  
+texte1_v2.txt  
+texte2_v2.txt  
+TD2.c  
+
+
+
 
 **Envoi au prof : **
 
