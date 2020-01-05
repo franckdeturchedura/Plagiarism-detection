@@ -42,7 +42,7 @@ def distance(A, B):
                 T[i-1][j] + Del(),
                 T[i-1][j-1] + Sub(A[i-1], B[j-1])
             )
-            
+
     return T
 
 # Question 2 #
@@ -107,7 +107,7 @@ def alignements_optimaux(A, B):
             A_p.append(A[i_p])
             B_p.append(" ")
             i = i-1
-        
+
         elif(i_p-i == 0 and j_p-j == -1):
             A_p.append(" ")
             B_p.append(B[j_p])
@@ -134,6 +134,37 @@ def in_tab(e, L):
             return True
     return False
 
+
+
+def indice_der_lettre(Seq):
+    alphab = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    ind = len(Seq)
+    for i in reversed(Seq):
+
+        if i in alphab:
+            return ind
+        ind = ind - 1
+
+
+def ind_min(SeqA,SeqB):
+    ind_a = indice_der_lettre(SeqA)
+    ind_b = indice_der_lettre(SeqB)
+    ind_min = min(ind_a,ind_b)
+    return int(ind_min)
+
+
+def calcul_score(a,b):
+    ind_minim = ind_min(a,b)
+    a,b = a[:ind_minim],b[:ind_minim]
+    print("a = ",a)
+    print("b = ",b)
+    print("len(b) = ",len(b))
+    print("dist(a, b) = ",distance(a, b)[-1][-1])
+    score1 = distance(a, b)[-1][-1]/len(b)
+    print("score1 = ", score1)
+
+    return score1
+
 if __name__ == '__main__':
     A = 'abbacb'
     B = 'cbbbacab'
@@ -155,10 +186,10 @@ if __name__ == '__main__':
 
     # pairs = []
     # for p1 in tab1:
-        
+
     #     dist = 9999
     #     p = tab2[0]
-        
+
     #     for p2 in tab2[1:]:
     #         a, b = alignements_optimaux(p1, p2)
     #         T = distance(a, b)
@@ -167,7 +198,7 @@ if __name__ == '__main__':
     #         if( c < dist ):
     #             dist = c
     #             p = p2
-        
+
     #     if( not(in_tab(p1, pairs)) and not(in_tab(p, pairs)) ):
     #         pairs.append([p1, p])
     #     elif( in_tab(p1, pairs) ):
@@ -263,6 +294,14 @@ if __name__ == '__main__':
 
     # Bonne méthode pour apparier
     a, b = alignements_optimaux(tab2[0], tab1[0])
+    print("avec la fonction, score = ", calcul_score(a,b))
+
+    a, b = alignements_optimaux(tab2[-1], tab1[0])
+    print("avec la fonction, score = ", calcul_score(a,b))
+
+"""    ind_min1 = ind_min(a,b)
+    print("indice minimale",ind_min1)
+    a,b = a[:ind_min1],b[:ind_min1]
     print("a1 = ",a)
     print("b1 = ",b)
     print("len(b1) = ",len(b))
@@ -270,7 +309,10 @@ if __name__ == '__main__':
     score1 = distance(a, b)[-1][-1]/len(b)
     print("score1 = ", score1)
 
-    a, b = alignements_optimaux(tab2[-1], tab1[0])
+
+    ind_min2 = ind_min(a,b)
+    print("indice minimale",ind_min2)
+    a,b = a[:ind_min2],b[:ind_min2]
     print("\na2 = ",a)
     print("b2 = ",b)
     print("len(b2) = ",len(b))
@@ -278,5 +320,6 @@ if __name__ == '__main__':
     score2 = distance(a, b)[-1][-1]/len(b)
     print("score2 = ", score2)
 
-    print("meilleur alignement = ", min(score1, score2))
+"""
 
+    #print("meilleur alignement = ", min(score1, score2))
