@@ -12,7 +12,7 @@ int Imax(int a, int b)
   else return a;
 }
 
-
+/* =============================================================== */
 void afficheSeparateurHorizontal(int nbcar)
 /* =============================================================== */
 {
@@ -26,7 +26,8 @@ void afficheSeparateurHorizontal(int nbcar)
   printf("-|\n");
 }
 
-void affiche(char* texte1, char* texte2, int nbcar)
+/* =============================================================== */
+void affiche3(char* texte1, char* texte2, int nbcar)
   /* Affiche simultanément texte1 et texte 2 en positionnnant nbcar
      caractères sur chaque ligne. */
 /* =============================================================== */
@@ -58,11 +59,18 @@ void affiche(char* texte1, char* texte2, int nbcar)
     sprintf(out, "| %c-%ds | %c-%ds |\n",'%', nbcar, '%', nbcar);
     printf(out, t1,t2);
   }
-  afficheSeparateurHorizontal(nbcar);
   free(t1);
   free(t2);
 }
 
+/* =============================================================== */
+void affiche(char* texte1, char* texte2, int nbcar)
+  /* Idem affiche3, mais avec une barre horizontale à la fin. */
+/* =============================================================== */
+{
+  affiche3(texte1, texte2, nbcar);
+  afficheSeparateurHorizontal(nbcar);
+}
 
 /* =============================================================== */
 void affiche2(char* texte1, char* texte2, int nbcar)
