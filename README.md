@@ -33,12 +33,12 @@ On peut l'éxécuter :
 
 `./<nom_du_compilé_sans_extension`
 
-**Compiler en .tar.gz sous ubuntu : **  
+**Compiler en .tar.gz sous ubuntu :**  
 
 `tar czvf <nom_archive>.tar.gz <nom_rep>`
 
 
-**Envoi au prof : **  
+**Envoi au prof :**  
 
 Compresser les .py, les .c correspondants et les compilés, ainsi que les instructions précédentes (à mettre également dans le rapport).
 
