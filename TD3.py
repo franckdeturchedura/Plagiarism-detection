@@ -42,7 +42,7 @@ def distance(A, B):
                 T[i-1][j] + Del(),
                 T[i-1][j-1] + Sub(A[i-1], B[j-1])
             )
-
+            
     return T
 
 # Question 2 #
@@ -107,7 +107,7 @@ def alignements_optimaux(A, B):
             A_p.append(A[i_p])
             B_p.append(" ")
             i = i-1
-
+        
         elif(i_p-i == 0 and j_p-j == -1):
             A_p.append(" ")
             B_p.append(B[j_p])
@@ -124,7 +124,6 @@ def alignements_optimaux(A, B):
     return "".join(A_p), "".join(B_p)
 
 # Question 4 #
-
 def in_tab(e, L):
     '''
     Renvoie True si l'élément e est dans la liste de listes L.
@@ -134,36 +133,100 @@ def in_tab(e, L):
             return True
     return False
 
-
-
 def indice_der_lettre(Seq):
+    '''
+    Renvoie l'indice de la dernière lettre de l'alphabet dans la strong Seq.
+    '''
     alphab = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
     ind = len(Seq)
     for i in reversed(Seq):
-
         if i in alphab:
             return ind
         ind = ind - 1
 
-
 def ind_min(SeqA,SeqB):
     ind_a = indice_der_lettre(SeqA)
     ind_b = indice_der_lettre(SeqB)
-    ind_min = min(ind_a,ind_b)
+    ind_min = min(ind_a, ind_b)
     return int(ind_min)
 
+def calcul_score(a, b):
+    i_min = ind_min(a, b)
+    a, b = a[:i_min], b[:i_min]
+    # print("a = ", a)
+    # print("b = ", b)
+    # print("len(b) = ", len(b))
+    # print("dist(a, b) = ", distance(a, b)[-1][-1])
+    score = distance(a, b)[-1][-1]/len(b)
+    # print("score = ", score)
+    return score
 
-def calcul_score(a,b):
-    ind_minim = ind_min(a,b)
-    a,b = a[:ind_minim],b[:ind_minim]
-    print("a = ",a)
-    print("b = ",b)
-    print("len(b) = ",len(b))
-    print("dist(a, b) = ",distance(a, b)[-1][-1])
-    score1 = distance(a, b)[-1][-1]/len(b)
-    print("score1 = ", score1)
+def alignements_paragraphes(A, B):
+    '''
+    Affiche un tableau des alignements des paragraphes des textes A et B.
+    '''
+    tab1 = A.split('\n')         # On fait la liste des différents paragraphes
+    tab2 = B.split('\n')
+    if( len(tab1) < len(tab2) ): # On commence par parcourir le texte avec le plus de paragraphes
+        tab1, tab2 = tab2, tab1
 
-    return score1
+    pairs = []
+    for p1 in tab1:
+        dist = 9999
+        p = tab2[0]
+        for p2 in tab2:
+            a, b = alignements_optimaux(p1, p2)
+            c = distance(a, b)[-1][-1]/len(a) # calcul_score(a, b)   # distance(a, b)[-1][-1]/len(a)
+            # print("a = {}\n".format(p1))
+            # print("b = {}\n".format(p2))
+            # print("score(a, b) = {}".format(c))
+            # print("dist = {}".format(dist))
+            # print('***************************')
+            if( c < dist ):
+                dist = c
+                p = p2
+
+        # Idée : Avant d'ajouter (p1, p), on parcours tous les p1 et on teste s'il existe un p1'
+        # tq dist(p1', p) < dist(p1, p)
+        # for p11 in tab1:
+        #     if p11 != p1 and not(in_tab(p11, pairs)):
+        #         a, b = alignements_optimaux(p11, p)
+        #         d = distance(a, b)[-1][-1]/len(a)
+        #         if d < dist:
+        #             # Il existe un meilleur paragraphe pour p que p1
+        #             # On reteste pour la 2e plus petite distance
+        #             if( not(in_tab(p11, pairs)) and not(in_tab(p, pairs)) ):
+        #                 pairs.append([p11, p])
+        #         else:
+        #             # On peut ajouter le couple (p1, p)
+        #             break
+
+        # On n'ajoute la paire que si aucun des deux paragraphes n'est déjà dans pairs.
+        # Sinon, on ajoute l'évenuel paragraphe manquant associé à une chaine vide.
+        if( not(in_tab(p1, pairs)) and not(in_tab(p, pairs)) ):
+            pairs.append([p1, p])
+        elif( in_tab(p1, pairs) ):
+            pairs.append([' '*len(p), p])
+        elif( in_tab(p, pairs) ):
+            pairs.append([p1, ' '*len(p1)])
+
+
+    T = distance(A, B)
+    l = max(len(A), len(B))
+    similarite = 1-(T[-1][-1]/l)
+    print('\nDistance entre les textes : {}; longueur de t1.txt : {}, longueur de t2.txt : {}'.format(
+        T[-1][-1],
+        len(A),
+        len(B)
+    ))
+    print('Score de similarité en % : {:.3f}'.format(similarite*100))
+
+    # Affichage du tableau des paires
+    for k in pairs:
+        t1 = c_char_p(k[0].encode('utf-8'))
+        t2 = c_char_p(k[1].encode('utf-8'))
+        affichage.affiche3(t2, t1, 65)
+    affichage.afficheSeparateurHorizontal(65)
 
 if __name__ == '__main__':
     A = 'abbacb'
@@ -175,48 +238,11 @@ if __name__ == '__main__':
     text3 = read_text('t1.txt')
     text4 = read_text('t2.txt')
 
-    #******************************************************************
-
-    tab1 = text3[:-1].split('\n')
-    tab2 = text4[:-1].split('\n') # On fait la liste des différents paragraphes
-    if( len(tab1) < len(tab2) ): # On commence par parcourir le texte avec le plus de paragraphes
-        tab1, tab2 = tab2, tab1
-
-    # print("tab1 = {}\n\ntab2 = {}\n".format(tab1, tab2))
-
-    # pairs = []
-    # for p1 in tab1:
-
-    #     dist = 9999
-    #     p = tab2[0]
-
-    #     for p2 in tab2[1:]:
-    #         a, b = alignements_optimaux(p1, p2)
-    #         T = distance(a, b)
-    #         c = T[-1][-1]/len(a)
-
-    #         if( c < dist ):
-    #             dist = c
-    #             p = p2
-
-    #     if( not(in_tab(p1, pairs)) and not(in_tab(p, pairs)) ):
-    #         pairs.append([p1, p])
-    #     elif( in_tab(p1, pairs) ):
-    #         pairs.append([' '*len(p), p])
-    #     elif( in_tab(p, pairs) ):
-    #         pairs.append([p1, ' '*len(p1)])
-
-
-
-    # for k in pairs:
-    #     t1 = c_char_p(k[0].encode('utf-8'))
-    #     t2 = c_char_p(k[1].encode('utf-8'))
-    #     affichage.affiche3(t2, t1, 65)
-    # affichage.afficheSeparateurHorizontal(65)
+    # alignements_paragraphes(text3[:-1], text4[:-1])
 
     #******************************************************************
 
-    # a, b = alignements_optimaux(text3, text4)
+    # a, b = alignements_optimaux(A, B)
     # T = distance(a, b)
 
     # print("\nDist({}, {}) = {}\n".format(a[:15], b[:15], T[-1][-1]))
@@ -226,100 +252,38 @@ if __name__ == '__main__':
     # print(b)
     # print()
 
-    # print("len(text1) =", len(text3), ", len(text2) =", len(text4))
-    # print("len(a) =", len(a), ", len(b) =", len(b))
-    # print()
-
-    # t1 = c_char_p(a.encode('utf-8'))
-    # t2 = c_char_p(b.encode('utf-8'))
-    # affichage.affiche2(t1, t2, 65)
-
-    # t1 = c_char_p(text1.encode('utf-8'))
-    # t2 = c_char_p(text2.encode('utf-8'))
-    # affichage.affiche(t1, t2, 65)
-
-    # test1 = "abcd\n423\namen\n"
-    # test2 = "abcE\n123\n"
-
-    # a, b = alignements_optimaux(text3, text4)
-    # a, b = alignements_optimaux(test1, test2)
-
-    # tab1 = a[:-1].split('\n') # On fait la liste des différents paragraphes
-    # tab2 = b[:-1].split('\n')
-
-    # print("tab1 =", tab1)
-    # print("tab2 =", tab2)
-
-    # matchs = []
-    # for p1 in tab1: # On parcours les paragraphes du 1er texte
-    #     # print("p1 = {}".format(p1))
-    #     dist = 9999
-    #     p = tab2[0]
-    #     for p2 in tab2: # Pour chaque p1 on parcours les paragraphes du 2nd texte
-    #         # print("p2 = {}".format(p2))
-    #         # a, b = alignements_optimaux(p1, p2)
-    #         # print("a = {}, b = {}".format(a,b))
-    #         T = distance(p1, p2)
-    #         # print("dist =", T[-1][-1])
-    #         if T[-1][-1] < dist : # On retient le paragraphe p2 qui est le plus proche de p1
-    #             dist = T[-1][-1]
-    #             p = p2
-    #             # print("p = {}".format(p))
-    #     matchs.append([p1, p]) # On renvoie la paire de paragrahes dans matchs
-    #     # print('***********')
-    # print(matchs)
-
-    # T = distance(a, b)
-
-    # Test de la similarité
-    # s1 = 'ab'
-    # s2 = 'abc'
-    # a, b = alignements_optimaux(s1, s2)
-    # T = distance(s1, s2)
-
-    # simi = 1-(T[-1][-1]/len(a))
-    # print()
-    # print('Distance entre les textes : {}; longueur de t1.txt : {}, longueur de t2.txt : {}'.format(
-    #     T[-1][-1],
-    #     len(text3),
-    #     len(text4)
-    # ))
-    # print('Score de similarité en % : {:.3f}'.format(simi*100))
-
-    # # On affiche les paires de paragraphes ensembles
-    # for k in matchs:
-    #     t1 = c_char_p(k[0].encode('utf-8'))
-    #     t2 = c_char_p(k[1].encode('utf-8'))
-    #     affichage.affiche(t2, t1, 65)
-
     # Bonne méthode pour apparier
-    a, b = alignements_optimaux(tab2[0], tab1[0])
-    print("avec la fonction, score = ", calcul_score(a,b))
+    tab1 = text3[:-1].split('\n')
+    tab2 = text4[:-1].split('\n') # On fait la liste des différents paragraphes
+    if( len(tab1) < len(tab2) ): # On commence par parcourir le texte avec le plus de paragraphes
+        tab1, tab2 = tab2, tab1
 
-    a, b = alignements_optimaux(tab2[-1], tab1[0])
-    print("avec la fonction, score = ", calcul_score(a,b))
-
-"""    ind_min1 = ind_min(a,b)
-    print("indice minimale",ind_min1)
-    a,b = a[:ind_min1],b[:ind_min1]
-    print("a1 = ",a)
-    print("b1 = ",b)
-    print("len(b1) = ",len(b))
-    print("dist(a1, b1) = ",distance(a, b)[-1][-1])
-    score1 = distance(a, b)[-1][-1]/len(b)
-    print("score1 = ", score1)
+    print("tab1 = {}\n\ntab2 = {}\n".format(tab1, tab2))
 
 
-    ind_min2 = ind_min(a,b)
-    print("indice minimale",ind_min2)
-    a,b = a[:ind_min2],b[:ind_min2]
-    print("\na2 = ",a)
-    print("b2 = ",b)
-    print("len(b2) = ",len(b))
-    print("dist(a2, b2) = ",distance(a, b)[-1][-1])
-    score2 = distance(a, b)[-1][-1]/len(b)
-    print("score2 = ", score2)
+    # a, b = alignements_optimaux(tab2[0], tab1[0])
+    # print("a1 = ",a)
+    # print("b1 = ",b)
+    # print("len(b1) = ",len(b))
+    # print("dist(a1, b1) = ",distance(a, b)[-1][-1])
+    # score1 = distance(a, b)[-1][-1]/len(b)
+    # print("score1 = ", score1)
 
-"""
+    # a, b = alignements_optimaux(tab2[-1], tab1[0])
+    # print("\na2 = ",a)
+    # print("b2 = ",b)
+    # print("len(b2) = ",len(b))
+    # print("dist(a2, b2) = ",distance(a, b)[-1][-1])
+    # score2 = distance(a, b)[-1][-1]/len(b)
+    # print("score2 = ", score2)
+    # print("meilleur alignement = ", min(score1, score2))
 
-    #print("meilleur alignement = ", min(score1, score2))
+    # a, b = alignements_optimaux(tab2[0], tab1[0])
+    # score1 = calcul_score(a,b)
+    # print("avec la fonction, score = ", score1)
+
+    # a, b = alignements_optimaux(tab2[-1], tab1[0])
+    # score2 = calcul_score(a,b)
+    # print("avec la fonction, score = ", score2)
+
+    # print("meilleur alignement = ", min(score1, score2))
