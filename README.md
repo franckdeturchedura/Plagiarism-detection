@@ -36,13 +36,3 @@ On peut l'éxécuter :
 **Compiler en .tar.gz sous ubuntu :**  
 
 `tar czvf <nom_archive>.tar.gz <nom_rep>`
-
-
-**Envoi au prof :**  
-
-Compresser les .py, les .c correspondants et les compilés, ainsi que les instructions précédentes (à mettre également dans le rapport).
-
-Il faut également inclure le rapport.
-
-Le tout à destination de `jean.cousty@esiee.fr` avec pour objet `INF-4202B : TDm #2 : livrables` avec les deux membres du binôme en copie avant le 06/01/2020 à 23h55.
-
