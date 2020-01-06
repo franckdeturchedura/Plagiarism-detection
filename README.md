@@ -1,9 +1,10 @@
-# Detection_plagiat
-Algo de détection de plagiat (ou similitude entre deux chaînes de caractères)
+# TD Detection de plagiat - Unité Applied Algorithm  
+## Par Franck Deturche-Dura et Guillaume Gay  
+Algorithme de détection de plagiat (ou similitude entre deux chaînes de caractères)
 
 
 
-**Comment compiler sous Ubuntu : **
+**Comment compiler sous Ubuntu :**  
 
 
 On installe les librairies nécessaires : 
@@ -20,9 +21,9 @@ On compile ensuite le fichier.c
 
 `gcc -Os -I /usr/include/python3.6m  <nom_du_fichier.c> -o <nom_du_compilé_sans_extension> -lpython3.6m -lpthread -lm -lutil -ldl`
 
-Si ça ne marche pas c'est que le python installé n'est pas le bon
+Si ça ne marche pas c'est que la version de python spécifiée n'est pas la bonne.
 
-Alors : `locate Python.h` puis remplacer `/usr/include/python3.6m` par le résultat et `-lpython3.6m`par la bonne version également.
+Alors : `locate Python.h` puis remplacer dans la commande ci-dessus `/usr/include/python3.6m` par le résultat et `-lpython3.6m`par la bonne version également.
 
 On donne les bons droits :
 
@@ -35,16 +36,6 @@ On peut l'éxécuter :
 **Compiler en .tar.gz sous ubuntu : **
 
 `tar czvf <nom_archive>.tar.gz <nom_rep>`
-
-**Fichiers inutiles à supprimer :**  
-td3.py  
-td3.c  
-td3  
-texte1_v2.txt  
-texte2_v2.txt  
-TD2.c  
-
-
 
 
 **Envoi au prof : **
