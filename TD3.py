@@ -62,7 +62,7 @@ def retourne_indices(i, j, T):
         j = j -1
         return i, j
 
-    else:
+    else: # En cas d'égalité on choisi de remonter par la diagonale.
         i = i-1
         j = j-1
         return i, j
@@ -82,25 +82,25 @@ def alignements_optimaux(A, B):
     T = distance(A, B)
 
     while(i!=0 and j!=0):
-        i_p, j_p = retourne_indices(i,j,T)
+        i_p, j_p = retourne_indices(i,j,T)  # on calcule les indices suivants pour remonter T
 
-        if(i_p-i == -1 and j_p-j == -1):
+        if(i_p-i == -1 and j_p-j == -1):  # Cas ou le score optimal est sur la diagonale
             A_p.append(A[i_p])
             B_p.append(B[j_p])
             i = i-1
             j = j-1
 
-        elif(i_p-i == -1 and j_p-j == 0):
+        elif(i_p-i == -1 and j_p-j == 0):  # Cas ou le score optimal est sur la ligne
             A_p.append(A[i_p])
             B_p.append(" ")
             i = i-1
         
-        elif(i_p-i == 0 and j_p-j == -1):
+        elif(i_p-i == 0 and j_p-j == -1):  # Cas ou le score optimal est sur la colonne
             A_p.append(" ")
             B_p.append(B[j_p])
             j = j-1
 
-    A_p.reverse()
+    A_p.reverse() # on remet les séquences à l'endroit
     B_p.reverse()
     return "".join(A_p), "".join(B_p)
 
@@ -225,14 +225,13 @@ if __name__ == '__main__':
     a, b = alignements_paragraphes(tab1, tab2)
 
     T = distance2(tab1, tab2)
-    l = max(len(text3), len(text4))
-    similarite = 1-(T[-1][-1]/len(a))
+    similarite = 1-(T[-1][-1]/(len(text3)+len(text4)))
     print('Distance entre les textes : {}; longueur de t1.txt : {}, longueur de t2.txt : {}'.format(
         T[-1][-1],
         len(text3),
         len(text4)
     ))
-    print('Score de similarité en % : {:.3f}'.format(similarite*100))
+    print('Score de similarité en % : {:.6f}'.format(similarite*100))
 
     # Affichage
     for i, j in zip(a, b):
