@@ -1,4 +1,4 @@
-# TD Detection de plagiat - Unité Applied Algorithm  
+# Détection de plagiat - Project ESIEE Paris
 ## Par Franck Deturche-Dura et Guillaume Gay  
 Algorithme de détection de plagiat (ou similitude entre deux chaînes de caractères)
 
