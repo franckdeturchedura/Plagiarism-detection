@@ -1,10 +1,12 @@
 # Détection de plagiat - Project ESIEE Paris
-## Par Franck Deturche-Dura et Guillaume Gay  
+
+@authors Par Franck Deturche-Dura et Guillaume Gay 
+
 Algorithme de détection de plagiat (ou similitude entre deux chaînes de caractères)
 
 
 
-**Comment compiler sous Ubuntu :**  
+## Compiler sous Ubuntu 
 
 
 On installe les librairies nécessaires : 
@@ -33,6 +35,10 @@ On peut l'éxécuter :
 
 `./<nom_du_compilé_sans_extension`
 
-**Compiler en .tar.gz sous ubuntu :**  
+## Compiler en .tar.gz sous ubuntu  
 
 `tar czvf <nom_archive>.tar.gz <nom_rep>`
+
+## Execution
+
+
