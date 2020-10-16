@@ -41,4 +41,5 @@ On peut l'éxécuter :
 
 ## Execution
 
+Run `gcc affichage.c` and `./affichage`
 
